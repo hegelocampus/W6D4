@@ -16,19 +16,19 @@ class Knight < Piece
 end
 
 class King < Piece
-    def initialize(color, board, pos)
-      super
-    end
-    
-    def symbol
-      :K
-    end
+  def initialize(color, board, pos)
+    super
+  end
 
-    protected 
+  def symbol
+    :K
+  end
 
-    def move_diffs
+  protected 
 
-    end
+  def move_diffs
+
+  end
 end
 
 module Stepable
