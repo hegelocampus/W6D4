@@ -17,9 +17,13 @@ class Piece
   def valid_moves
     moves = []
     (0..7).each do |x|
-      (0..7).each { |y| moves << [x, y] }
+      (0..7).each { |y| moves << [x, y] unless @board[[x, y]].color == color }
     end
-    moves
+    test_board = @board.dup
+    moves.reject do |test_pos|
+      test_board.move_piece(color, pos, test_pos)
+      test_board.in_check?(color) 
+    end
   end
 
   def pos=(val)

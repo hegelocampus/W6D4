@@ -14,7 +14,7 @@ class Board
   def rows_setup
     big_pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     pawns = [Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn]
-    x = (Array.new(8) { [] }).map.with_index do |row, idx_1|
+    (Array.new(8) { [] }).map.with_index do |row, idx_1|
       color = (idx_1 < 3 ? :black : :white)
       if [0, 7].include?(idx_1)
         big_pieces.map.with_index do |piece, idx_2|
@@ -46,6 +46,7 @@ class Board
     piece.pos= end_pos
     self[start_pos]= Nullpiece.instance
     self[end_pos]= piece
+    self
   end
 
   def valid_pos?(pos)
@@ -54,22 +55,40 @@ class Board
 
   def in_check?(color)
     king_pos = find_king(color)
+    rows.any? do |row|
+      row.any? { |piece| piece.valid_moves.include?(king_pos) }
+    end
   end
 
   def find_king(color)
     king_pos = []
     @rows.each_with_index do |row, idx_1|
       pos = row.index { |piece| piece.symbol == :k && piece.color == color}
-      king_pos = pos unless pos.nil?
+      king_pos = [idx_1, pos] unless pos.nil?
     end
     king_pos
   end
 
   def checkmate?(color)
-
+    return false unless in_check?(color)
+    pieces.none? { |piece| piece.color == color && !piece.valid_moves.empty? }
   end
 
-  
+  def pieces
+    rows.flatten.reject { |piece| piece.is_a?(Nullpiece) }
+  end
+
+  def dup
+    new_board = self.dup
+    new_board.rows = self.rows.map do |row|
+      row.map do |piece| 
+        new_piece = piece.dup
+        new_piece.pos = piece.pos.dup
+        new_piece
+      end
+    end
+    new_board
+  end
 
   def inspect
     Display.new(self).inspect
