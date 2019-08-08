@@ -42,6 +42,8 @@ class Cursor
   def get_input
     key = KEYMAP[read_char]
     handle_key(key)
+  rescue
+    retry
   end
 
   private
@@ -77,21 +79,24 @@ class Cursor
 
   def handle_key(key)
     case key
-    when :return || :space
+    when :return, :space
       cursor_pos
-    when :left || :right || :up || :down
+    when :left, :right, :up, :down
       update_pos(key)
     when :ctrl_c
       Process::exit(status=0)
     end
-
+    
     nil
   end
 
-  def update_pos(diff)
-    new_pos = cursor_pos.map_with_index { |x, i| x + MOVES[x][i] }
-    if board.valid_pos?(diff)
-      self.cursor_pos = diff
-    elsif
+  #1=>[0,0] [0 + MOVES[:right][0]] #=> [0 + 0] == 0 #2=> [0 + MOVES[:right][1]] #=>[0 + 1] == 1
+  def update_pos(key)
+    new_pos = cursor_pos.map.with_index { |x, i| x + MOVES[key][i] }
+    if board.valid_pos?(new_pos)
+      @cursor_pos = new_pos
+    else
+      raise "Outside of board"
+    end
   end
 end

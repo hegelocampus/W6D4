@@ -11,7 +11,6 @@ class Board
     @rows = rows_setup  # this is the board, rows combine to be a complete board
   end
 
-  ## TODO: assign correct color to pieces 
   def rows_setup
     big_pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     pawns = [Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn]
@@ -53,17 +52,24 @@ class Board
     pos[0].between?(0, 7) && pos[1].between?(0, 7)
   end
 
-  #def add_piece(piece, pos) # taken care of in row_setup
-  #
-  #end
+  def in_check?(color)
+    king_pos = find_king(color)
+  end
+
+  def find_king(color)
+    king_pos = []
+    @rows.each_with_index do |row, idx_1|
+      pos = row.index { |piece| piece.symbol == :k && piece.color == color}
+      king_pos = pos unless pos.nil?
+    end
+    king_pos
+  end
 
   def checkmate?(color)
 
   end
 
-  def in_check?(color)
-
-  end
+  
 
   def inspect
     Display.new(self).inspect

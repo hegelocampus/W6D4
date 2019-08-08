@@ -21,6 +21,7 @@ A nice but optional addition to your cursor class is a boolean instance variable
 Time to test! This time you should run ruby display.rb. Does your board render as you would expect? Make sure that as you move your cursor the display updates accordingly. Test the cursor's behavior when you try and move it off the board (the edge cases if you will). Does it do what you expect?
 
 Code Review Time: Before moving on to piece logic, get a code review from a TA!
+
 Phase IV: Board#in_check?(color) and Board#checkmate?(color)
 
 The Board class should have a method #in_check?(color) that returns whether a player is in check. You can implement this by (1) finding the position of the King on the board then (2) seeing if any of the opposing pieces can move to that position.

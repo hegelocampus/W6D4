@@ -1,5 +1,6 @@
 require_relative "board.rb"
 require "colorize"
+require "byebug"
 require_relative "cursor.rb"
 
 class Display
@@ -9,8 +10,18 @@ class Display
   end
 
   def render 
-    @board.rows.each do |row|
-      p row.map { |piece| piece.to_s }
+    system "clear"
+    puts "+---+---+---+---+---+---+---+---+"
+    @board.rows.each_with_index do |row, idx_1|
+      arr = row.map.with_index do|piece, idx_2|
+        if [idx_1, idx_2] == @cursor.cursor_pos
+          piece.to_s.colorize(:color => :black, :background => :yellow)
+        else
+          piece.to_s
+        end
+      end
+      puts '| ' + arr.join(' | ') + ' |'
+      puts "+---+---+---+---+---+---+---+---+"
     end
   end
 
@@ -24,4 +35,11 @@ class Display
     @cursor.get_input
   end
 
+end
+
+cats = Display.new(Board.new)
+
+while cats
+  cats.render
+  cats.get_input
 end
