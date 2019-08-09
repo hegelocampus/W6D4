@@ -11,7 +11,7 @@ class Piece
   end
 
   def empty?
-    symbol.nil?
+    false
   end
 
   def valid_moves
