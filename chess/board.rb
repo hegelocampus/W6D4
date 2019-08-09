@@ -1,10 +1,12 @@
-require_relative "pieces/knight_king.rb"
-require_relative "pieces/nullpiece.rb"
-require_relative "pieces/pawn.rb"
-require_relative "pieces/rook_bishop_queen.rb"
-require 'byebug'
-class Board
+require_relative 'pieces/piece.rb'
+require_relative 'pieces/pawn.rb'
+require_relative 'pieces/knight_king.rb'
+require_relative 'pieces/nullpiece.rb'
+require_relative 'pieces/rook_bishop_queen.rb'
 
+require 'byebug'
+
+class Board
   attr_reader :rows
 
   def initialize
@@ -25,7 +27,7 @@ class Board
           piece.new(color, self, [idx_1, idx_2])
         end
       else 
-        Array.new(8, Nullpiece.instance )
+        Array.new(8, Nullpiece.instance)
       end
     end
   end
@@ -41,7 +43,7 @@ class Board
   def move_piece(color, start_pos, end_pos)
     piece = self[start_pos] #=> Rook.obj => Rook.pos = [end_pos]
     raise "invalid starting position" if piece.nil?
-    raise "Invalid move" unless piece.valid_moves.include?(end_pos) && valid_pos?(end_pos)
+    raise "Invalid move" unless valid_pos?(end_pos) && piece.valid_moves.include?(end_pos)
     raise "Cannot move onto your own piece" if self[end_pos].color == color
     piece.pos= end_pos
     self[start_pos]= Nullpiece.instance
@@ -94,6 +96,3 @@ class Board
     Display.new(self).inspect
   end
 end
-
-# chess = Board.new 
-# p chess.rows

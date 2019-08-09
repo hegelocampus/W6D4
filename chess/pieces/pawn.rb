@@ -1,4 +1,5 @@
-require_relative "piece.rb"
+require_relative 'piece.rb'
+
 class Pawn < Piece
     def initialize(color, board, pos)
       super 
@@ -26,3 +27,4 @@ class Pawn < Piece
 
     end
 end
+

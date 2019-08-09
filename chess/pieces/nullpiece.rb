@@ -1,5 +1,5 @@
-require_relative "piece.rb"
 require "singleton"
+require_relative 'piece.rb'
 
 class Nullpiece < Piece
 
@@ -26,3 +26,4 @@ class Nullpiece < Piece
     nil
   end
 end
+

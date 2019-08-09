@@ -4,6 +4,8 @@ require "byebug"
 require_relative "cursor.rb"
 
 class Display
+  attr_reader :board
+
   def initialize(board)
     @board = board  
     @cursor = Cursor.new([0,0], board)
@@ -25,21 +27,27 @@ class Display
     end
   end
 
-  def inspect
-    @board.rows.each do |row|
-      row.map { |piece| piece.to_s }.inspect
-    end
-  end
+  
 
   def get_input
     @cursor.get_input
   end
 
+  def inspect
+    @board.rows.each do |row|
+      row.map { |piece| piece.to_s }.inspect
+    end
+  end
 end
 
 cats = Display.new(Board.new)
 
-while cats
-  cats.render
-  cats.get_input
-end
+#while cats
+#  cats.render
+#  cats.get_input
+#end
+cats.render
+cats.board.move_piece(:black, [1,0], [6,4]) 
+cats.render
+cats.board.move_piece(:black, [0,0], [5,4]) 
+cats.render

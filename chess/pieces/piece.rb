@@ -1,5 +1,5 @@
-
 class Piece
+  attr_reader :color, :pos # Might not need pos
   def initialize(color, board, pos)
     @color = color #symbol for color
     @board = board #Board class obj
@@ -13,6 +13,8 @@ class Piece
   def empty?
     false
   end
+
+  def
 
   def valid_moves
     moves = []
